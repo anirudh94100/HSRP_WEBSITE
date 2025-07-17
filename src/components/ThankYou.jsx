@@ -3,7 +3,7 @@
 import React from 'react';
 import { CheckCircle } from 'lucide-react';
 
-const ThankYou = ({ orderDetails }) => {
+const ThankYou = ({ orderDetails, onBackToHome }) => {
   const { orderNumber, date, email, total, paymentMethod } = orderDetails;
 
   return (
@@ -74,6 +74,14 @@ const ThankYou = ({ orderDetails }) => {
               </address>
           </div>
         </div>
+      </div>
+      <div className="mt-8 text-center">
+        <button 
+          onClick={onBackToHome}
+          className="bg-brand-blue text-white font-bold py-3 px-8 rounded-md hover:bg-blue-700 transition-colors"
+        >
+          Back to Home
+        </button>
       </div>
     </div>
   );

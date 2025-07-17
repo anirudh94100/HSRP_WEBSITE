@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { ArrowLeft, ChevronRight, Phone, Mail } from 'lucide-react';
 import ThankYou from '../components/ThankYou';
 import UserDetails from '../components/UserDetails';
+import Payment from '../components/Payment';
 
 const ProgressStep = ({ number, title, isActive }) => (
   <div className="flex items-center z-10">
@@ -20,7 +21,7 @@ const BookingPage = ({ onBack }) => {
   const [step, setStep] = useState(1);
 
   const handleNext = () => {
-    if (step < 5) { // We have 5 steps in total
+    if (step < 4) { // 4 stages: Details -> User -> Pay -> Thanks
       setStep(prev => prev + 1);
     }
   };
@@ -30,37 +31,40 @@ const BookingPage = ({ onBack }) => {
     date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
     email: 'customer@example.com',
     total: '₹600.00',
-    paymentMethod: 'Direct bank transfer'
+    paymentMethod: 'QR Code UPI'
   };
 
   const states = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
 
-  const progressWidth = step > 1 ? `${((step - 1) / 4) * 100}%` : '0%';
-
-  const steps = [
+  const progressSteps = [
     { number: 1, title: "Booking Details" },
-    { number: 2, title: "Fitment Location" },
-    { number: 3, title: "Appointment Slot" },
-    { number: 4, title: "Booking Summary" },
-    { number: 5, title: "Verify & Pay" },
+    { number: 2, title: "User Details" },
+    { number: 3, title: "Verify & Pay" },
   ];
+
+  const activeStepForProgress = Math.min(step, 3);
+  const progressWidth = activeStepForProgress > 1 ? `${((activeStepForProgress - 1) / (progressSteps.length - 1)) * 100}%` : '0%';
 
   return (
     <div className="bg-gray-50 min-h-screen p-4 sm:p-8">
       <div className="max-w-6xl mx-auto">
-        <button onClick={onBack} className="flex items-center text-gray-600 hover:text-black font-semibold mb-6 transition-colors">
-          <ArrowLeft size={20} className="mr-2" />
-          Back to Home
-        </button>
+        {step < 4 && (
+          <button onClick={onBack} className="flex items-center text-gray-600 hover:text-black font-semibold mb-6 transition-colors">
+            <ArrowLeft size={20} className="mr-2" />
+            Back to Home
+          </button>
+        )}
 
-        {/* Progress Bar */}
-        <div className="flex justify-between items-center mb-10 relative w-full max-w-4xl mx-auto">
-          <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gray-200 -translate-y-1/2"></div>
-          <div className="absolute top-1/2 left-0 h-0.5 bg-brand-blue -translate-y-1/2 transition-all duration-500" style={{ width: progressWidth }}></div>
-          {steps.map(s => (
-            <ProgressStep key={s.number} number={s.number} title={s.title} isActive={step >= s.number} />
-          ))}
-        </div>
+        {/* Progress Bar - hidden on final thank you page */}
+        {step < 4 && (
+          <div className="flex justify-between items-center mb-10 relative w-full max-w-3xl mx-auto">
+            <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gray-200 -translate-y-1/2"></div>
+            <div className="absolute top-1/2 left-0 h-0.5 bg-brand-blue -translate-y-1/2 transition-all duration-500" style={{ width: progressWidth }}></div>
+            {progressSteps.map(s => (
+              <ProgressStep key={s.number} number={s.number} title={s.title} isActive={step >= s.number} />
+            ))}
+          </div>
+        )}
 
         {step === 1 && (
           <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8">
@@ -117,7 +121,11 @@ const BookingPage = ({ onBack }) => {
         )}
 
         {step === 3 && (
-          <ThankYou orderDetails={orderDetails} />
+          <Payment onPaymentComplete={handleNext} />
+        )}
+        
+        {step === 4 && (
+          <ThankYou orderDetails={orderDetails} onBackToHome={onBack} />
         )}
       </div>
     </div>
