@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, ChevronRight, Phone, Mail, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import ThankYou from '../components/ThankYou';
@@ -18,7 +19,8 @@ const ProgressStep = ({ number, title, isActive }) => (
   </div>
 );
 
-const BookingPage = ({ onBack }) => {
+const BookingPage = () => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [bookingId, setBookingId] = useState(null);
@@ -156,7 +158,7 @@ const BookingPage = ({ onBack }) => {
     <div className="bg-gray-50 min-h-screen p-4 sm:p-8">
       <div className="max-w-6xl mx-auto">
         {step < 4 && (
-          <button onClick={onBack} className="flex items-center text-gray-600 hover:text-black font-semibold mb-6 transition-colors">
+          <button onClick={() => navigate('/')} className="flex items-center text-gray-600 hover:text-black font-semibold mb-6 transition-colors">
             <ArrowLeft size={20} className="mr-2" />
             Back to Home
           </button>
@@ -225,7 +227,7 @@ const BookingPage = ({ onBack }) => {
 
         {step === 2 && <UserDetails onNext={handleUserDetailsSubmit} isLoading={isLoading} />}
         {step === 3 && <Payment onPaymentComplete={handlePaymentSubmit} isLoading={isLoading} />}
-        {step === 4 && <ThankYou orderDetails={finalOrderDetails} onBackToHome={onBack} />}
+        {step === 4 && <ThankYou orderDetails={finalOrderDetails} />}
       </div>
     </div>
   );

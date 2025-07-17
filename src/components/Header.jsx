@@ -1,19 +1,33 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
+const NavLink = ({ to, children }) => (
+  <Link to={to} className="text-gray-700 hover:text-brand-blue font-medium transition-colors">
+    {children}
+  </Link>
+);
 
 const Header = () => {
   return (
-    <header className="bg-white py-4 border-b">
-      <div className="container mx-auto flex justify-center items-center space-x-4">
-        <img 
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/80px-Emblem_of_India.svg.png" 
-          alt="Emblem of India" 
-          className="h-16 sm:h-20 w-auto" 
-        />
-        <div className="text-left">
-          <h1 className="text-lg sm:text-xl md:text-3xl font-bold text-black uppercase">
-            Ministry of Road Transport and Highways
-          </h1>
+    <header className="bg-white border-b">
+      <div className="container mx-auto px-4">
+        {/* Top section with logo */}
+        <div className="py-4 flex justify-center items-center">
+          <Link to="/" className="inline-block">
+            <div className="border-2 border-black rounded-md px-4 py-2">
+              <span className="font-bold text-lg tracking-widest">HSRP-PLATE</span>
+            </div>
+          </Link>
         </div>
+        
+        {/* Navigation section */}
+        <nav className="py-3 flex justify-center items-center flex-wrap gap-x-6 gap-y-2">
+          <NavLink to="/">Home</NavLink>
+          <NavLink to="/privacy-policy">Privacy Policy</NavLink>
+          <NavLink to="/contact-us">Contact us</NavLink>
+          <NavLink to="/home-installation">Home Installation</NavLink>
+          <NavLink to="/track-order">Track Your Order</NavLink>
+        </nav>
       </div>
     </header>
   );

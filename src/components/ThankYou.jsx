@@ -1,9 +1,11 @@
 "use client";
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CheckCircle } from 'lucide-react';
 
-const ThankYou = ({ orderDetails, onBackToHome }) => {
+const ThankYou = ({ orderDetails }) => {
+  const navigate = useNavigate();
   const { orderNumber, date, email, total, paymentMethod, billingAddress } = orderDetails;
 
   return (
@@ -81,7 +83,7 @@ const ThankYou = ({ orderDetails, onBackToHome }) => {
       </div>
       <div className="mt-8 text-center">
         <button 
-          onClick={onBackToHome}
+          onClick={() => navigate('/')}
           className="bg-brand-blue text-white font-bold py-3 px-8 rounded-md hover:bg-blue-700 transition-colors"
         >
           Back to Home
