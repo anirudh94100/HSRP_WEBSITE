@@ -58,7 +58,7 @@ const BookingPage = () => {
     setIsLoading(true);
     const toastId = toast.loading('Saving booking details...');
     try {
-        const response = await fetch('https://backend-road-transport.onrender.com/api/booking-details', {
+        const response = await fetch('/api/booking-details', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(bookingDetails)
@@ -83,7 +83,7 @@ const BookingPage = () => {
     setUserDetails(data);
     try {
         const payload = { ...data, bookingId: String(bookingId) };
-        const response = await fetch('https://backend-road-transport.onrender.com/api/user-details', {
+        const response = await fetch('/api/user-details', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
@@ -110,7 +110,7 @@ const BookingPage = () => {
         formData.append('bookingId', String(bookingId));
         formData.append('payment_amount', '600.00');
 
-        const response = await fetch('https://backend-road-transport.onrender.com/api/payment-details', {
+        const response = await fetch('/api/payment-details', {
             method: 'POST',
             body: formData
         });
