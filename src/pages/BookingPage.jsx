@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { ArrowLeft, ChevronRight, Phone, Mail } from 'lucide-react';
+import toast from 'react-hot-toast';
 import ThankYou from '../components/ThankYou';
 import UserDetails from '../components/UserDetails';
 import Payment from '../components/Payment';
@@ -21,6 +22,9 @@ const BookingPage = ({ onBack }) => {
   const [step, setStep] = useState(1);
 
   const handleNext = () => {
+    if (step === 1) {
+      toast.success('Thank you for providing your details!');
+    }
     if (step < 4) { // 4 stages: Details -> User -> Pay -> Thanks
       setStep(prev => prev + 1);
     }
