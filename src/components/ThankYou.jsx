@@ -4,7 +4,7 @@ import React from 'react';
 import { CheckCircle } from 'lucide-react';
 
 const ThankYou = ({ orderDetails, onBackToHome }) => {
-  const { orderNumber, date, email, total, paymentMethod } = orderDetails;
+  const { orderNumber, date, email, total, paymentMethod, billingAddress } = orderDetails;
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8">
@@ -66,12 +66,16 @@ const ThankYou = ({ orderDetails, onBackToHome }) => {
 
           <div className="border border-gray-200 rounded-lg p-4">
               <h3 className="text-lg font-bold mb-2 text-gray-800">Billing address</h3>
-              <address className="not-italic text-gray-600">
-                  John Doe<br />
-                  1234 Main St<br />
-                  Anytown, USA 12345<br />
-                  johndoe@example.com
-              </address>
+              {billingAddress ? (
+                <address className="not-italic text-gray-600">
+                    {billingAddress.name}<br />
+                    {billingAddress.address}<br />
+                    {billingAddress.phone}<br />
+                    {billingAddress.email}
+                </address>
+              ) : (
+                <p className="text-gray-500">No billing address provided.</p>
+              )}
           </div>
         </div>
       </div>
