@@ -3,14 +3,15 @@
 import React, { useState } from 'react';
 import { ArrowLeft, ChevronRight, Phone, Mail } from 'lucide-react';
 import ThankYou from '../components/ThankYou';
+import UserDetails from '../components/UserDetails';
 
 const ProgressStep = ({ number, title, isActive }) => (
-  <div className="flex items-center">
-    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-lg ${isActive ? 'bg-brand-blue text-white' : 'bg-gray-200 text-gray-500'}`}>
+  <div className="flex items-center z-10">
+    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-lg transition-colors ${isActive ? 'bg-brand-blue text-white' : 'bg-gray-200 text-gray-500'}`}>
       {number}
     </div>
-    <div className="ml-3">
-      <h3 className={`font-semibold ${isActive ? 'text-brand-blue' : 'text-gray-500'}`}>{title}</h3>
+    <div className="ml-3 hidden sm:block">
+      <h3 className={`font-semibold transition-colors ${isActive ? 'text-brand-blue' : 'text-gray-500'}`}>{title}</h3>
     </div>
   </div>
 );
@@ -19,11 +20,11 @@ const BookingPage = ({ onBack }) => {
   const [step, setStep] = useState(1);
 
   const handleNext = () => {
-    // Here you would typically handle form validation
-    setStep(2);
+    if (step < 5) { // We have 5 steps in total
+      setStep(prev => prev + 1);
+    }
   };
 
-  // Dummy data for the thank you page
   const orderDetails = {
     orderNumber: '12345',
     date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
@@ -34,6 +35,16 @@ const BookingPage = ({ onBack }) => {
 
   const states = ["Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
 
+  const progressWidth = step > 1 ? `${((step - 1) / 4) * 100}%` : '0%';
+
+  const steps = [
+    { number: 1, title: "Booking Details" },
+    { number: 2, title: "Fitment Location" },
+    { number: 3, title: "Appointment Slot" },
+    { number: 4, title: "Booking Summary" },
+    { number: 5, title: "Verify & Pay" },
+  ];
+
   return (
     <div className="bg-gray-50 min-h-screen p-4 sm:p-8">
       <div className="max-w-6xl mx-auto">
@@ -42,22 +53,18 @@ const BookingPage = ({ onBack }) => {
           Back to Home
         </button>
 
+        {/* Progress Bar */}
+        <div className="flex justify-between items-center mb-10 relative w-full max-w-4xl mx-auto">
+          <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gray-200 -translate-y-1/2"></div>
+          <div className="absolute top-1/2 left-0 h-0.5 bg-brand-blue -translate-y-1/2 transition-all duration-500" style={{ width: progressWidth }}></div>
+          {steps.map(s => (
+            <ProgressStep key={s.number} number={s.number} title={s.title} isActive={step >= s.number} />
+          ))}
+        </div>
+
         {step === 1 && (
           <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8">
             <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6">Booking Details</h1>
-            
-            {/* Progress Bar */}
-            <div className="hidden md:flex justify-between items-center mb-10 relative w-full max-w-4xl mx-auto">
-              <div className="absolute top-1/2 left-0 w-full h-0.5 bg-gray-200 -translate-y-1/2"></div>
-              <div className="absolute top-1/2 left-0 w-0 h-0.5 bg-brand-blue -translate-y-1/2"></div>
-              <ProgressStep number="1" title="Booking Details" isActive={true} />
-              <ProgressStep number="2" title="Fitment Location" />
-              <ProgressStep number="3" title="Appointment Slot" />
-              <ProgressStep number="4" title="Booking Summary" />
-              <ProgressStep number="5" title="Verify & Pay" />
-            </div>
-
-            {/* Form Section */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -87,8 +94,6 @@ const BookingPage = ({ onBack }) => {
                   </button>
                 </div>
               </div>
-
-              {/* Info Box */}
               <div className="bg-gray-100 rounded-lg p-6">
                 <h4 className="font-bold text-lg mb-4">Contact Information</h4>
                 <p className="text-gray-600 mb-4">For any query or support, please feel free to contact us.</p>
@@ -108,6 +113,10 @@ const BookingPage = ({ onBack }) => {
         )}
 
         {step === 2 && (
+          <UserDetails onNext={handleNext} />
+        )}
+
+        {step === 3 && (
           <ThankYou orderDetails={orderDetails} />
         )}
       </div>
