@@ -7,10 +7,10 @@ const Footer = () => {
       {/* Top blue bar */}
       <div className="bg-brand-blue text-white py-4">
         <div className="container mx-auto px-4 flex justify-center sm:justify-around items-center flex-wrap text-sm gap-x-6 gap-y-2">
-          <a href="#" className="hover:underline">FAQ</a>
-          <a href="#" className="hover:underline">Terms and Condition</a>
-          <a href="#" className="hover:underline">Reschedule Appointment</a>
-          <a href="#" className="hover:underline">Refund and Returns Policy</a>
+          <Link to="/faq" className="hover:underline">FAQ</Link>
+          <Link to="/terms-and-conditions" className="hover:underline">Terms and Condition</Link>
+          <Link to="/reschedule-appointment" className="hover:underline">Reschedule Appointment</Link>
+          <Link to="/refund-policy" className="hover:underline">Refund and Returns Policy</Link>
         </div>
       </div>
       

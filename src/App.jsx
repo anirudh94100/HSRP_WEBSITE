@@ -8,6 +8,10 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import ContactUs from './pages/ContactUs';
 import HomeInstallation from './pages/HomeInstallation';
 import TrackOrder from './pages/TrackOrder';
+import FaqPage from './pages/FaqPage';
+import TermsAndConditionsPage from './pages/TermsAndConditionsPage';
+import RescheduleAppointmentPage from './pages/RescheduleAppointmentPage';
+import RefundPolicyPage from './pages/RefundPolicyPage';
 
 function App() {
   return (
@@ -22,6 +26,10 @@ function App() {
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/home-installation" element={<HomeInstallation />} />
             <Route path="/track-order" element={<TrackOrder />} />
+            <Route path="/faq" element={<FaqPage />} />
+            <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
+            <Route path="/reschedule-appointment" element={<RescheduleAppointmentPage />} />
+            <Route path="/refund-policy" element={<RefundPolicyPage />} />
           </Routes>
         </div>
         <Footer />
